@@ -25,8 +25,13 @@ contract WhiteList {
     }
 
     event Business(address, bool);
-    event Investment(address from, address to, uint256 amount);
-    event addBusiness(string _name, uint256 _amount, address Business);
+    event Investment(
+        address from,
+        address to,
+        uint256 amount,
+        uint256 moneyGeneratedperBusiness
+    );
+    event EquityDetails(string _name, uint256 _amount, address Business);
 
     // members have to  vote before a business can be whiteListed, if vote >= 70% of then an address is whitliested
 
@@ -72,10 +77,11 @@ contract WhiteList {
         BO.business = msg.sender;
         BO.amount = _amount;
         BO.name = _name;
+
+        emit EquityDetails(BO.name, BO.amount, BO.business);
     }
 
     function InvestInBusiness(address business) public payable {
-        //Thinking their money invested on behalf of the business should go straight to supperfluid taggged to a particular business.
         BusinessOwner storage BO = businessowner[business];
         require(msg.value > 0, "you can't invest 0 value");
         require(
@@ -86,10 +92,18 @@ contract WhiteList {
         BO.investors.push(msg.sender);
         BO.investorsBalances[msg.sender] += msg.value;
         contractBalance += msg.value;
+        uint256 _moneyGenerated = moneyGenerated(business);
+
+        emit Investment(
+            msg.sender,
+            BO.business,
+            BO.investorsBalances[msg.sender],
+            _moneyGenerated
+        );
     }
 
     function moneyGenerated(address bus) public view returns (uint256) {
-        businessowner[bus].AmountGenerated;
+        return businessowner[bus].AmountGenerated;
     }
 
     function viewWhiteListedBusiness(address _addr) public view returns (bool) {
@@ -98,7 +112,6 @@ contract WhiteList {
 
     function WhiteListBusiness(address _addr) internal {
         assert(!whiteListedBusiness[_addr]);
-        // businessowner[_addr].amount = amount;
         whiteListedBusiness[_addr] = true;
         emit Business(_addr, true);
     }
