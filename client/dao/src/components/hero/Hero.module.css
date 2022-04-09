@@ -1,0 +1,49 @@
+.heroCon {
+  /* width: 100%; */
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.hero {
+  width: 100%;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  color: #fff;
+  margin: 3rem 7rem;
+}
+
+.content h1 {
+  color: #398ab9;
+}
+
+.content h3 {
+  width: 70%;
+  text-align: right;
+  margin-left: 14.5rem;
+  word-wrap: break-word;
+}
+
+button {
+  padding: 1.2rem 4rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btns {
+  margin-top: 12rem;
+}
+
+.btns a button:first-child {
+  margin-right: 2rem;
+  background-color: #398ab9;
+  color: #fff;
+}
+.btns button:last-child {
+  color: #398ab9;
+}

@@ -1,0 +1,24 @@
+.root {
+  max-width: 60%;
+  width: 60%;
+  margin: 3rem auto;
+}
+
+.description {
+}
+
+.description p:last-child {
+  color: #e62222;
+  font-weight: bold;
+}
+
+.upload {
+  background-color: #f4f6fe;
+  margin-top: 3rem;
+  padding: 3rem;
+  text-align: center;
+}
+
+.upload p:first-child {
+  color: #398ab9;
+}

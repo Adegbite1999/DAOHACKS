@@ -1,0 +1,29 @@
+.root {
+  padding: 5rem;
+  margin: 1rem auto;
+}
+
+.container {
+  padding: 1rem;
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.content p {
+  line-height: 1.6;
+}
+
+.desc {
+  width: 60%;
+}
+
+.imgCont {
+  width: 12%;
+}
+/* .imgCont:nth-child(2) {
+  width: 8%;
+} */
