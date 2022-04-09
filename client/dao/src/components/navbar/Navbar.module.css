@@ -1,0 +1,14 @@
+.root {
+  border-bottom: 1px solid #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.logo {
+}
+
+.invest {
+}
+
+.items {
+}
