@@ -1,10 +1,13 @@
 pragma solidity ^0.8.0;
+import "./IUSDT.sol";
 
-contract WhiteList {
+contract Investify {
     address[] public DAOmembers;
-    uint256 public constant MINIMUMMEMBER = 2;
+    uint256 public constant MINIMUMMEMBER = 5;
     uint256 public contractBalance;
     //struct holding information of business
+
+    IUSDT usdt = IUSDT(address(0xdAC17F958D2ee523a2206206994597C13D831ec7));
     struct BusinessOwner {
         string name;
         address business;
@@ -19,11 +22,6 @@ contract WhiteList {
     mapping(address => uint256) VotesCount;
     mapping(address => BusinessOwner) public businessowner;
 
-    constructor(address[] memory _DAOmembers) {
-        require(_DAOmembers.length >= MINIMUMMEMBER);
-        DAOmembers = _DAOmembers;
-    }
-
     event Business(address, bool);
     event Investment(
         address from,
@@ -32,6 +30,11 @@ contract WhiteList {
         uint256 moneyGeneratedperBusiness
     );
     event EquityDetails(string _name, uint256 _amount, address Business);
+
+    constructor(address[] memory _DAOmembers) {
+        require(_DAOmembers.length >= MINIMUMMEMBER);
+        DAOmembers = _DAOmembers;
+    }
 
     // members have to  vote before a business can be whiteListed, if vote >= 70% of then an address is whitliested
 
@@ -68,8 +71,6 @@ contract WhiteList {
         return VotesCount[_addr];
     }
 
-    // ["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4","0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db", "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"]
-
     function addBusiness(string memory _name, uint256 _amount) public {
         assert(checkMember());
         BusinessOwner storage BO = businessowner[msg.sender];
@@ -81,17 +82,21 @@ contract WhiteList {
         emit EquityDetails(BO.name, BO.amount, BO.business);
     }
 
-    function InvestInBusiness(address business) public payable {
+    function InvestInBusiness(address business, uint256 _amount)
+        public
+        payable
+    {
         BusinessOwner storage BO = businessowner[business];
-        require(msg.value > 0, "you can't invest 0 value");
+        require(usdt.balanceOf(msg.sender) >= _amount, "insufficiient amount");
         require(
-            BO.amount + msg.value < BO.AmountGenerated,
+            BO.amount + _amount < BO.AmountGenerated,
             "Required Loan amount met"
         );
-        BO.AmountGenerated += msg.value;
+        usdt.transferFrom(msg.sender, address(this), _amount);
+        BO.AmountGenerated += _amount;
         BO.investors.push(msg.sender);
-        BO.investorsBalances[msg.sender] += msg.value;
-        contractBalance += msg.value;
+        BO.investorsBalances[msg.sender] += _amount;
+        contractBalance += _amount;
         uint256 _moneyGenerated = moneyGenerated(business);
 
         emit Investment(
