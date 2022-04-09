@@ -25,11 +25,13 @@ contract WhiteList {
     }
 
     event Business(address, bool);
+    event Investment(address from, address to, uint256 amount);
+    event addBusiness(string _name, uint256 _amount, address Business);
 
     // members have to  vote before a business can be whiteListed, if vote >= 70% of then an address is whitliested
 
     function VoteWhitelistBusiness(address _addr) public returns (uint256) {
-        assert(checkMemeber());
+        assert(checkMember());
         assert(!(memberVote[msg.sender][_addr]));
         VotesCount[_addr]++;
         if (VotesCount[_addr] >= calMinimumVote()) {
@@ -40,7 +42,7 @@ contract WhiteList {
     }
 
     function VoteBlacklistBusiness(address _addr) public returns (uint256) {
-        assert(checkMemeber());
+        assert(checkMember());
         assert((memberVote[msg.sender][_addr]));
         VotesCount[_addr]++;
         if (VotesCount[_addr] >= calMinimumVote()) {
@@ -51,7 +53,7 @@ contract WhiteList {
     }
 
     function AddMembertoDAO(address _addr) public returns (uint256) {
-        assert(checkMemeber());
+        assert(checkMember());
         assert(!(memberVote[msg.sender][_addr]));
         VotesCount[_addr]++;
         if (VotesCount[_addr] == calMinimumVote()) {
@@ -63,10 +65,12 @@ contract WhiteList {
 
     // ["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4","0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2", "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db", "0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB"]
 
-    function addBusiness(string memory _name, address businessAddress) public {
-        BusinessOwner storage BO = businessowner[businessAddress];
-        assert(whiteListedBusiness[businessAddress]);
-        BO.business = businessAddress;
+    function addBusiness(string memory _name, uint256 _amount) public {
+        assert(checkMember());
+        BusinessOwner storage BO = businessowner[msg.sender];
+        assert(whiteListedBusiness[msg.sender]);
+        BO.business = msg.sender;
+        BO.amount = _amount;
         BO.name = _name;
     }
 
@@ -75,13 +79,17 @@ contract WhiteList {
         BusinessOwner storage BO = businessowner[business];
         require(msg.value > 0, "you can't invest 0 value");
         require(
-            BO.amount + msg.value > BO.AmountGenerated,
+            BO.amount + msg.value < BO.AmountGenerated,
             "Required Loan amount met"
         );
         BO.AmountGenerated += msg.value;
         BO.investors.push(msg.sender);
         BO.investorsBalances[msg.sender] += msg.value;
         contractBalance += msg.value;
+    }
+
+    function moneyGenerated(address bus) public view returns (uint256) {
+        businessowner[bus].AmountGenerated;
     }
 
     function viewWhiteListedBusiness(address _addr) public view returns (bool) {
@@ -99,7 +107,7 @@ contract WhiteList {
         whiteListedBusiness[_addr] = false;
     }
 
-    function checkMemeber() internal view returns (bool status) {
+    function checkMember() internal view returns (bool status) {
         status;
         for (uint256 i; i < DAOmembers.length; i++) {
             if (DAOmembers[i] == msg.sender) status = true;
