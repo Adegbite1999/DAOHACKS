@@ -15,6 +15,8 @@ contract Investify {
         uint256 AmountGenerated;
         address[] investors;
         mapping(address => uint256) investorsBalances;
+        bool status
+
     }
 
     mapping(address => bool) whiteListedBusiness;
@@ -28,7 +30,6 @@ contract Investify {
         address to,
         uint256 amount,
         uint256 moneyGeneratedperBusiness,
-        bool status,
     );
     event EquityDetails(string _name, uint256 _amount, address Business);
 
