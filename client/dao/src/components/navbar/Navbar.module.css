@@ -1,14 +1,47 @@
 .root {
-  border-bottom: 1px solid #000;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f6fe;
+  padding: 0.7rem 5rem;
+}
+
+.logo {
+  font-weight: 700;
+}
+
+.logo h1 span:first-child {
+  color: #495371;
+}
+.logo h1 span:last-child {
+  color: green;
+}
+.items {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
-.logo {
+
+.items li {
+  margin: auto 0.8rem;
+  list-style: none;
+  border: 1px solid #ccc;
+  padding: 0.3rem 1.2rem;
+  cursor: pointer;
+  border-radius: 10px;
 }
 
-.invest {
+.items li:first-child:hover {
+  background-color: green;
+  color: #ffff;
 }
 
-.items {
+.items li:last-child {
+  background-color: #fff;
+  border: none;
+  color: green;
+}
+.items li:last-child:hover {
+  color: green;
+  border: 1px solid green;
 }
