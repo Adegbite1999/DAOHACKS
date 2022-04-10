@@ -22,3 +22,7 @@
 .upload p:first-child {
   color: #398ab9;
 }
+
+.icon {
+  cursor: pointer;
+}

@@ -25,4 +25,5 @@
 .others li {
   margin: 0 2rem;
   list-style: none;
+  cursor: pointer;
 }
