@@ -34,10 +34,6 @@ contract Investify {
         address indexed to,
         uint256 amount,
         uint256 moneyGeneratedperBusiness
-<<<<<<< HEAD
-=======
-    
->>>>>>> 6094afd5c7a254a56d1d784a9997d3fc87734982
     );
     event EquityDetails(uint256 _amount, address indexed Business);
 
@@ -91,16 +87,15 @@ contract Investify {
     /// @notice DaoMember update the business requesting for fund onchain.
     /// @param _amount The _amount needed for the business.
 
-<<<<<<< HEAD
     function addBusiness(
         string memory _name,
         uint256 _amount,
         uint256 _rate,
         address business
     ) public {
-=======
+
     function addBusiness(uint256 _amount) public {
->>>>>>> 6094afd5c7a254a56d1d784a9997d3fc87734982
+
         assert(checkMember());
         BusinessOwner storage BO = businessowner[business];
         assert(whiteListedBusiness[msg.sender]);
@@ -108,11 +103,8 @@ contract Investify {
 
         BO.business = business;
         BO.amount = _amount;
-<<<<<<< HEAD
         BO.name = _name;
         BO.rate = (_rate.mul(10000)).div(100);
-=======
->>>>>>> 6094afd5c7a254a56d1d784a9997d3fc87734982
         BO.status = true;
 
         emit EquityDetails(BO.amount, BO.business);
