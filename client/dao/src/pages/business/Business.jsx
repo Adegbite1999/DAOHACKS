@@ -13,9 +13,6 @@ const Business = () => {
   const [fileUrl, updateFileUrl] = useState("");
   // Create a reference to the hidden file input element
   const hiddenFileInput = React.useRef(null);
-  //-------------------------------------------------------------------
-
-  //----------------------------------------------------------------
 
   const handleClick = (e) => {
     hiddenFileInput.current.click();
@@ -23,16 +20,19 @@ const Business = () => {
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
-    updateFileUrl(file.name);
-    console.log(file);
-    console.log(API_TOKEN);
+
+    //---------------------------------------------
+    const added = await client.add(file);
+    const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+    updateFileUrl(url);
+    //---------------------------------------------
 
     try {
       // Construct with token and endpoint
-      const client = new Web3Storage({ token: process.env.API_TOKEN });
+      const client = new Web3Storage({ token: API_TOKEN });
 
       // Pack files into a CAR and send to web3.storage
-      const rootCid = await client.put(file); // Promise<CIDString>
+      const rootCid = await client.put(file.files); // Promise<CIDString>
       console.log(rootCid);
 
       // Get info on the Filecoin deals that the CID is stored in
@@ -62,6 +62,7 @@ const Business = () => {
             onChange={handleFile}
             style={{ display: "none" }}
             ref={hiddenFileInput}
+            multiple
           />
           <BsCloudUpload
             size={50}
@@ -74,7 +75,9 @@ const Business = () => {
             admission into the funding pool would depend on the authenticity of
             this documents and other relevant links and business projections .
           </p>
-          <div>{fileUrl && <img src={fileUrl} width="600px" />}</div>
+          <div>
+            {fileUrl && <img src={fileUrl} alt={fileUrl} width="600px" />}
+          </div>
         </div>
       </div>
     </Layout>
