@@ -21,8 +21,6 @@ const Business = () => {
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    // updateFileUrl(url);
 
     try {
       // Construct with token and endpoint
@@ -30,7 +28,6 @@ const Business = () => {
 
       // Pack files into a CAR and send to web3.storage
       const rootCid = await client.put(file.files); // Promise<CIDString>
-      console.log(rootCid);
 
       // Get info on the Filecoin deals that the CID is stored in
       const info = await client.status(rootCid); // Promise<Status | undefined>
