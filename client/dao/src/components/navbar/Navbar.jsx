@@ -1,20 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Styles from "./Navbar.module.css";
+import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { addressShortner } from "../../utils/helpers";
 
 const Navbar = () => {
   const [connected, setConnected] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem(key) || null);
 
   useEffect(() => {
     if (!window.ethereum) return;
     // binding handlers to wallet events we care about
+    localStorage.setItem(key, user);
     window.ethereum.on("connect", eagerConnect);
     window.ethereum.on("accountsChanged", handleAccountChanged);
     window.ethereum.on("chainChanged", handleChainChanged);
-  }, []);
+  }, [key, user]);
+
+  // helper function for getting the matic and token balance, given an address
+  const getAccountDetails = async (address) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const userKovanBal = await provider.getBalance(address);
+
+      return { userKovanBal };
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // handler for when user switch from one account to another or completely disconnected
   const handleAccountChanged = async (accounts) => {
@@ -24,8 +39,9 @@ const Navbar = () => {
       });
       if (Number(networkId) !== 42) return;
       const accountDetails = await getAccountDetails(accounts[0]);
+      console.log(accountDetails);
 
-      setUserInfo(accounts[0]);
+      setUser(addressShortner(accounts[0]));
       setConnected(true);
     } else {
       setConnected(false);
@@ -39,15 +55,16 @@ const Navbar = () => {
       setConnected(false);
       setUser(null);
 
-      return toast.err(
-        "You are connected to the wrong network, please switch to polygon mumbai"
+      return toast.error(
+        "You are connected to the wrong network, please switch to Kovan mumbai"
       );
     } else {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
       if (!accounts.length) return;
       const accountDetails = await getAccountDetails(accounts[0]);
-      setUser(accounts[0]);
+
+      setUser(addressShortner(accounts[0]));
       setConnected(true);
     }
   };
@@ -60,7 +77,7 @@ const Navbar = () => {
     const accounts = await provider.listAccounts();
     if (!accounts.length) return;
     const accountDetails = await getAccountDetails(accounts[0]);
-    setUser(accounts[0]);
+    setUser(addressShortner(accounts[0]));
     setConnected(true);
   };
 
@@ -86,8 +103,10 @@ const Navbar = () => {
       </div>
 
       <ul className={Styles.items}>
-        <li>View our pool</li>
-        <li onClick={connectWallet}>Connect wallet</li>
+        <Link to="/info">
+          <li>View our pool</li>
+        </Link>
+        <li onClick={connectWallet}>{connected ? user : "Connect Wallet"}</li>
       </ul>
     </nav>
   );

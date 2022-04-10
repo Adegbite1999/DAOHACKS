@@ -14,6 +14,10 @@ const Business = () => {
   // Create a reference to the hidden file input element
   const hiddenFileInput = React.useRef(null);
 
+  //------------------------------------------------
+
+  //---------------------------------------------
+
   const handleClick = (e) => {
     hiddenFileInput.current.click();
   };
@@ -22,9 +26,9 @@ const Business = () => {
     const file = e.target.files[0];
 
     //---------------------------------------------
-    const added = await client.add(file);
-    const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-    updateFileUrl(url);
+    // const added = await client.add(file);
+    // const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+    // updateFileUrl(url);
     //---------------------------------------------
 
     try {
@@ -32,11 +36,20 @@ const Business = () => {
       const client = new Web3Storage({ token: API_TOKEN });
 
       // Pack files into a CAR and send to web3.storage
-      const rootCid = await client.put(file.files); // Promise<CIDString>
+      // console.log(file);
+      const rootCid = await client.put([file]); // Promise<CIDString>
       console.log(rootCid);
 
       // Get info on the Filecoin deals that the CID is stored in
       const info = await client.status(rootCid); // Promise<Status | undefined>
+
+      // Fetch and verify files from web3.storage
+      const res = await client.get(rootCid); // Promise<Web3Response | null>
+      const files = await res.files(); // Promise<Web3File[]>
+      for (const file of files) {
+        updateFileUrl(`ipfs://${file.cid}`);
+        console.log(`${file.cid} ${file.name} ${file.size}`);
+      }
     } catch (error) {
       console.log("Error uploading file: ", error);
     }
@@ -76,7 +89,16 @@ const Business = () => {
             this documents and other relevant links and business projections .
           </p>
           <div>
-            {fileUrl && <img src={fileUrl} alt={fileUrl} width="600px" />}
+            {fileUrl && (
+              <div>
+                <h4>Click link to view upload.</h4>
+                <p>
+                  <a href={fileUrl} className={Styles.linkGuy}>
+                    {fileUrl}
+                  </a>
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
