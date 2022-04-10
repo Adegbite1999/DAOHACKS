@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Business from "./pages/business/Business";
@@ -9,7 +9,7 @@ import Vote from "./pages/vote/Vote";
 
 function App() {
   // a flag for keeping track of whether or not a user is connected
-  const [connected, setConnected] = useState(false);
+  // const [connected, setConnected] = useState(false);
 
   useEffect(() => {
     if (!window.ethereum) return;

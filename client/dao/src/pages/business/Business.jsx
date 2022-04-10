@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Styles from "./Business.module.css";
 import Layout from "../../components/layout/Layout";
 import { BsCloudUpload } from "react-icons/bs";
-import { create } from "ipfs-http-client";
+// import { create } from "ipfs-http-client";
 import { Web3Storage } from "web3.storage";
 
-const client = create("https://ipfs.infura.io:5001/api/v0");
+// const client = create("https://ipfs.infura.io:5001/api/v0");
 const API_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDU4Q0RCMjc1ODNlZjdkMDdlZTQxNmZjQUM1MzM1NzgyMzdhOENiNzEiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDk1NDk3Nzc3ODQsIm5hbWUiOiJpbnZlc3RpZnkifQ.zywsJ0WgIN3eUJcLGyKhamGljTMvTqEIvMBAqw-z4oQ";
 
@@ -41,7 +41,7 @@ const Business = () => {
       console.log(rootCid);
 
       // Get info on the Filecoin deals that the CID is stored in
-      const info = await client.status(rootCid); // Promise<Status | undefined>
+      // const info = await client.status(rootCid); // Promise<Status | undefined>
 
       // Fetch and verify files from web3.storage
       const res = await client.get(rootCid); // Promise<Web3Response | null>

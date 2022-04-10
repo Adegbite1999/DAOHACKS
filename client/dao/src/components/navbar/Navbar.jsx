@@ -17,7 +17,12 @@ const Navbar = () => {
     window.ethereum.on("connect", eagerConnect);
     window.ethereum.on("accountsChanged", handleAccountChanged);
     window.ethereum.on("chainChanged", handleChainChanged);
-  }, []);
+    // eslint-disable-next-line
+
+  }, 
+  
+  // eslint-disable-next-line
+[]);
 
   // helper function for getting the matic and token balance, given an address
   const getAccountDetails = async (address) => {
@@ -62,7 +67,7 @@ const Navbar = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
       if (!accounts.length) return;
-      const accountDetails = await getAccountDetails(accounts[0]);
+      // const accountDetails = await getAccountDetails(accounts[0]);
 
       setUser(addressShortner(accounts[0]));
       setConnected(true);
@@ -76,7 +81,7 @@ const Navbar = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.listAccounts();
     if (!accounts.length) return;
-    const accountDetails = await getAccountDetails(accounts[0]);
+    // const accountDetails = await getAccountDetails(accounts[0]);
     setUser(addressShortner(accounts[0]));
     setConnected(true);
   };
