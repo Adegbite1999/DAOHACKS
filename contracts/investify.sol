@@ -1,25 +1,30 @@
-pragma solidity ^0.8.0;
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.4;
+
 import "./IUSDT.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract Investify {
+    using SafeMath for uint256;
     address[] public DAOmembers;
     uint256 public constant MINIMUMMEMBER = 5;
     uint256 public contractBalance;
     //struct holding information of business
 
-    IUSDT usdt = IUSDT(address(0xdAC17F958D2ee523a2206206994597C13D831ec7));
+    IUSDT usdt = IUSDT(address(0x8607D0Ab76985e845B03A6011aA13eDD1Cb21126));
     struct BusinessOwner {
         string name;
         address business;
         uint256 amount;
         uint256 AmountGenerated;
+        uint256 rate;
         address[] investors;
         mapping(address => uint256) investorsBalances;
-        bool status
-
+        bool status;
     }
 
     mapping(address => bool) whiteListedBusiness;
+    mapping(address => uint256) payOut;
     mapping(address => mapping(address => bool)) memberVote;
     mapping(address => uint256) VotesCount;
     mapping(address => BusinessOwner) public businessowner;
@@ -29,7 +34,7 @@ contract Investify {
         address from,
         address to,
         uint256 amount,
-        uint256 moneyGeneratedperBusiness,
+        uint256 moneyGeneratedperBusiness
     );
     event EquityDetails(string _name, uint256 _amount, address Business);
 
@@ -84,13 +89,21 @@ contract Investify {
     /// @param _name The name of the business.
     /// @param _amount The _amount needed for the business.
 
-    function addBusiness(string memory _name, uint256 _amount) public {
+    function addBusiness(
+        string memory _name,
+        uint256 _amount,
+        uint256 _rate,
+        address business
+    ) public {
         assert(checkMember());
-        BusinessOwner storage BO = businessowner[msg.sender];
+        BusinessOwner storage BO = businessowner[business];
         assert(whiteListedBusiness[msg.sender]);
-        BO.business = msg.sender;
+        require(payOut[business] == 0, "you are still owing investors");
+
+        BO.business = business;
         BO.amount = _amount;
         BO.name = _name;
+        BO.rate = (_rate.mul(10000)).div(100);
         BO.status = true;
 
         emit EquityDetails(BO.name, BO.amount, BO.business);
@@ -124,6 +137,17 @@ contract Investify {
             BO.investorsBalances[msg.sender],
             _moneyGenerated
         );
+    }
+
+    function withdraw(uint256 amount) public {
+        BusinessOwner storage BO = businessowner[msg.sender];
+        payOut[msg.sender] = BO.AmountGenerated.add(
+            BO.AmountGenerated.mul(BO.rate).div(10000)
+        );
+        uint256 AmountGenerated = BO.AmountGenerated;
+        BO.AmountGenerated = 0;
+        usdt.transfer(msg.sender, AmountGenerated);
+        BO.status = false;
     }
 
     /// @notice check the total amount investors has ivested in a particular business
