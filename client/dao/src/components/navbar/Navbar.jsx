@@ -8,16 +8,16 @@ import { addressShortner } from "../../utils/helpers";
 
 const Navbar = () => {
   const [connected, setConnected] = useState(false);
-  const [user, setUser] = useState(localStorage.getItem(key) || null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (!window.ethereum) return;
     // binding handlers to wallet events we care about
-    localStorage.setItem(key, user);
+
     window.ethereum.on("connect", eagerConnect);
     window.ethereum.on("accountsChanged", handleAccountChanged);
     window.ethereum.on("chainChanged", handleChainChanged);
-  }, [key, user]);
+  }, []);
 
   // helper function for getting the matic and token balance, given an address
   const getAccountDetails = async (address) => {
