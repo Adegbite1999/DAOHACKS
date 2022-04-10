@@ -6,6 +6,8 @@ import { create } from "ipfs-http-client";
 import { Web3Storage } from "web3.storage";
 
 const client = create("https://ipfs.infura.io:5001/api/v0");
+const API_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDU4Q0RCMjc1ODNlZjdkMDdlZTQxNmZjQUM1MzM1NzgyMzdhOENiNzEiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDk1NDk3Nzc3ODQsIm5hbWUiOiJpbnZlc3RpZnkifQ.zywsJ0WgIN3eUJcLGyKhamGljTMvTqEIvMBAqw-z4oQ";
 
 const Business = () => {
   const [fileUrl, updateFileUrl] = useState("");
@@ -21,15 +23,16 @@ const Business = () => {
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
+    updateFileUrl(file.name);
     console.log(file);
-    // updateFileUrl(url);
+    console.log(API_TOKEN);
 
     try {
       // Construct with token and endpoint
       const client = new Web3Storage({ token: process.env.API_TOKEN });
 
       // Pack files into a CAR and send to web3.storage
-      const rootCid = await client.put(file.files); // Promise<CIDString>
+      const rootCid = await client.put(file); // Promise<CIDString>
       console.log(rootCid);
 
       // Get info on the Filecoin deals that the CID is stored in

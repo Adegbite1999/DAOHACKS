@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Styles from "./Navbar.module.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const [connected, setConnected] = useState(false);
@@ -37,7 +39,7 @@ const Navbar = () => {
       setConnected(false);
       setUser(null);
 
-      return alert(
+      return toast.err(
         "You are connected to the wrong network, please switch to polygon mumbai"
       );
     } else {
@@ -66,13 +68,15 @@ const Navbar = () => {
   const connectWallet = async () => {
     if (!!window.ethereum || !!window.web3) {
       await window.ethereum.request({ method: "eth_requestAccounts" });
+      toast.success("wallet connected successfully");
     } else {
-      alert("please use an etherum enabled browser");
+      toast.error("please use an etherum enabled browser");
     }
   };
   return (
     <nav className={Styles.root}>
       <div className={Styles.logo}>
+        <ToastContainer />
         <Link to="/">
           <h1>
             <span className={Styles.invest}>investif</span>
