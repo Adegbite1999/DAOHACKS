@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-.items li {
+.items button {
   margin: auto 0.8rem;
   list-style: none;
   border: 1px solid #ccc;
@@ -31,17 +31,17 @@
   border-radius: 10px;
 }
 
-.items li:first-child:hover {
+.items button:first-child:hover {
   background-color: green;
   color: #ffff;
 }
 
-.items li:last-child {
+.items button:last-child {
   background-color: #fff;
   border: none;
   color: green;
 }
-.items li:last-child:hover {
+.items button:last-child:hover {
   color: green;
   border: 1px solid green;
 }
