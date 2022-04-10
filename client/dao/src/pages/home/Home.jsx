@@ -1,5 +1,4 @@
 import React from "react";
-import Styles from "./Home.module.css";
 import Layout from "../../components/layout/Layout";
 import Hero from "../../components/hero/Hero";
 import BodyContents from "../../components/card/BodyContents";

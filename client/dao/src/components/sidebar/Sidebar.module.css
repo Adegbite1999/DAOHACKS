@@ -1,21 +1,23 @@
 .root {
-  width: 15vw;
-  max-width: 15vw;
+  width: 20vw;
+  /* max-width: 15vw; */
   /* margin: 0 auto; */
   /* background: red; */
-  height: 82vh;
   /* padding: 1rem 3rem; */
   color: #fff;
 }
 
 .root div {
   /* margin: 1.4rem 0 0 1.5rem; */
-  width: 100%;
+  /* width: 100%; */
   padding: 1rem 2rem 1rem 5rem;
   color: #495371;
+  cursor: pointer;
+  /* margin: 20px 0; */
 }
 
 .root div:first-child {
   background-color: #495371;
   color: #fff;
+  margin: 0 0 20px 0;
 }

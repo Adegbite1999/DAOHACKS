@@ -1,0 +1,104 @@
+.root {
+  margin: 170px auto 188px;
+  font-family: "Manrope", sans-serif;
+}
+.container {
+  margin: auto;
+  max-width: 1000px;
+  width: 100%;
+}
+.details {
+  background-color: #f4f6fe;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 48px 40px 71px;
+}
+.topicContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.topic {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 49px;
+  color: #000000;
+  margin-bottom: 0;
+}
+.address {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 33px;
+  color: #000000;
+  margin-bottom: 0;
+}
+.overview {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 38px;
+  color: #495371;
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
+.description {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 33px;
+  color: #000000;
+  margin-bottom: 32px;
+}
+
+.box {
+  height: 62px;
+  width: 224px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.pitch {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 33px;
+  color: #000000;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+  width: 100%;
+}
+.buttonStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 224px;
+  height: 62px;
+  border-radius: 10px;
+  background-color: #44c442;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 44px;
+  color: #ffffff;
+  margin-right: 97px;
+}
+
+.buttonStyleOne {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 224px;
+  height: 62px;
+  border-radius: 10px;
+  background-color: #c73939;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 44px;
+  color: #ffffff;
+  margin-right: 97px;
+}

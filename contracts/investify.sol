@@ -13,7 +13,6 @@ contract Investify {
 
     IUSDT usdt = IUSDT(address(0x8607D0Ab76985e845B03A6011aA13eDD1Cb21126));
     struct BusinessOwner {
-        string name;
         address business;
         uint256 amount;
         uint256 AmountGenerated;
@@ -26,27 +25,31 @@ contract Investify {
     mapping(address => bool) whiteListedBusiness;
     mapping(address => uint256) payOut;
     mapping(address => mapping(address => bool)) memberVote;
-    mapping(address => uint256) VotesCount;
+    mapping(address => uint96) VotesCount;
     mapping(address => BusinessOwner) public businessowner;
 
     event Business(address, bool);
     event Investment(
         address from,
-        address to,
+        address indexed to,
         uint256 amount,
         uint256 moneyGeneratedperBusiness
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 6094afd5c7a254a56d1d784a9997d3fc87734982
     );
-    event EquityDetails(string _name, uint256 _amount, address Business);
+    event EquityDetails(uint256 _amount, address indexed Business);
 
     constructor(address[] memory _DAOmembers) {
-        require(_DAOmembers.length >= MINIMUMMEMBER);
+        assert(_DAOmembers.length >= MINIMUMMEMBER);
         DAOmembers = _DAOmembers;
     }
 
     /// @notice DaoMembers to vote and automatically whitelist if minimum vote is reached.
     /// @param _addr The address of the business to whitelist.
 
-    function VoteWhitelistBusiness(address _addr) public returns (uint256) {
+    function VoteWhitelistBusiness(address _addr) public returns (uint96) {
         assert(checkMember());
         assert(!(memberVote[msg.sender][_addr]));
         VotesCount[_addr]++;
@@ -60,7 +63,7 @@ contract Investify {
     /// @notice DaoMember to vote and automatically blacklist when minimum vote is reached.
     /// @param _addr The Business address to blacklist.
 
-    function VoteBlacklistBusiness(address _addr) public returns (uint256) {
+    function VoteBlacklistBusiness(address _addr) public returns (uint96) {
         assert(checkMember());
         assert((memberVote[msg.sender][_addr]));
         VotesCount[_addr]++;
@@ -86,15 +89,18 @@ contract Investify {
     }
 
     /// @notice DaoMember update the business requesting for fund onchain.
-    /// @param _name The name of the business.
     /// @param _amount The _amount needed for the business.
 
+<<<<<<< HEAD
     function addBusiness(
         string memory _name,
         uint256 _amount,
         uint256 _rate,
         address business
     ) public {
+=======
+    function addBusiness(uint256 _amount) public {
+>>>>>>> 6094afd5c7a254a56d1d784a9997d3fc87734982
         assert(checkMember());
         BusinessOwner storage BO = businessowner[business];
         assert(whiteListedBusiness[msg.sender]);
@@ -102,11 +108,14 @@ contract Investify {
 
         BO.business = business;
         BO.amount = _amount;
+<<<<<<< HEAD
         BO.name = _name;
         BO.rate = (_rate.mul(10000)).div(100);
+=======
+>>>>>>> 6094afd5c7a254a56d1d784a9997d3fc87734982
         BO.status = true;
 
-        emit EquityDetails(BO.name, BO.amount, BO.business);
+        emit EquityDetails(BO.amount, BO.business);
     }
 
     /// @notice User Invest Usdt in a whitelisted business.
