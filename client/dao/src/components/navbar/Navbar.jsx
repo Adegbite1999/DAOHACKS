@@ -5,64 +5,64 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
-  const [connected, setConnected] = useState(false);
-  const [user, setUser] = useState(null);
+  // const [connected, setConnected] = useState(false);
+  // const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    if (!window.ethereum) return;
-    // binding handlers to wallet events we care about
-    window.ethereum.on("connect", eagerConnect);
-    window.ethereum.on("accountsChanged", handleAccountChanged);
-    window.ethereum.on("chainChanged", handleChainChanged);
-  }, []);
+  // useEffect(() => {
+  //   if (!window.ethereum) return;
+  //   // binding handlers to wallet events we care about
+  //   window.ethereum.on("connect", eagerConnect);
+  //   window.ethereum.on("accountsChanged", handleAccountChanged);
+  //   window.ethereum.on("chainChanged", handleChainChanged);
+  // }, []);
 
-  // handler for when user switch from one account to another or completely disconnected
-  const handleAccountChanged = async (accounts) => {
-    if (!!accounts.length) {
-      const networkId = await window.ethereum.request({
-        method: "eth_chainId",
-      });
-      if (Number(networkId) !== 42) return;
-      const accountDetails = await getAccountDetails(accounts[0]);
+  // // handler for when user switch from one account to another or completely disconnected
+  // const handleAccountChanged = async (accounts) => {
+  //   if (!!accounts.length) {
+  //     const networkId = await window.ethereum.request({
+  //       method: "eth_chainId",
+  //     });
+  //     if (Number(networkId) !== 42) return;
+  //     const accountDetails = await getAccountDetails(accounts[0]);
 
-      setUserInfo(accounts[0]);
-      setConnected(true);
-    } else {
-      setConnected(false);
-      setUser(null);
-    }
-  };
+  //     setUserInfo(accounts[0]);
+  //     setConnected(true);
+  //   } else {
+  //     setConnected(false);
+  //     setUser(null);
+  //   }
+  // };
 
-  // handler for handling chain/network changed
-  const handleChainChanged = async (chainid) => {
-    if (Number(chainid) !== 42) {
-      setConnected(false);
-      setUser(null);
+  // // handler for handling chain/network changed
+  // const handleChainChanged = async (chainid) => {
+  //   if (Number(chainid) !== 42) {
+  //     setConnected(false);
+  //     setUser(null);
 
-      return toast.err(
-        "You are connected to the wrong network, please switch to polygon mumbai"
-      );
-    } else {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const accounts = await provider.listAccounts();
-      if (!accounts.length) return;
-      const accountDetails = await getAccountDetails(accounts[0]);
-      setUser(accounts[0]);
-      setConnected(true);
-    }
-  };
+  //     return toast.err(
+  //       "You are connected to the wrong network, please switch to polygon mumbai"
+  //     );
+  //   } else {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const accounts = await provider.listAccounts();
+  //     if (!accounts.length) return;
+  //     const accountDetails = await getAccountDetails(accounts[0]);
+  //     setUser(accounts[0]);
+  //     setConnected(true);
+  //   }
+  // };
 
-  // an handler to eagerly connect user and fetch their data
-  const eagerConnect = async () => {
-    const networkId = await window.ethereum.request({ method: "eth_chainId" });
-    if (Number(networkId) !== 42) return;
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await provider.listAccounts();
-    if (!accounts.length) return;
-    const accountDetails = await getAccountDetails(accounts[0]);
-    setUser(accounts[0]);
-    setConnected(true);
-  };
+  // // an handler to eagerly connect user and fetch their data
+  // const eagerConnect = async () => {
+  //   const networkId = await window.ethereum.request({ method: "eth_chainId" });
+  //   if (Number(networkId) !== 42) return;
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const accounts = await provider.listAccounts();
+  //   if (!accounts.length) return;
+  //   const accountDetails = await getAccountDetails(accounts[0]);
+  //   setUser(accounts[0]);
+  //   setConnected(true);
+  // };
 
   // On click for wallet connection.
   const connectWallet = async () => {

@@ -1,5 +1,5 @@
 .root {
-  margin: 170px auto 188px;
+  margin: 50px auto 58px;
   font-family: "Manrope", sans-serif;
 }
 .container {
@@ -85,27 +85,12 @@
   font-weight: 600;
   line-height: 44px;
   color: #ffffff;
-  margin-right: 97px;
 }
-
-.buttonStyleOne {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 224px;
-  height: 62px;
-  border-radius: 10px;
-  background-color: #c73939;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 44px;
-  color: #ffffff;
+.input {
+  padding: 0.8rem;
+  border-radius: 0.2rem;
+  border: none;
 }
-
 .buttonStyle:hover {
-  opacity: 0.7;
-}
-
-.buttonStyleOne:hover {
-  opacity: 0.7;
+  opacity: 0.6;
 }
