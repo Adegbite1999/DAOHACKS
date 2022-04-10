@@ -8,7 +8,6 @@ contract Investify {
     using SafeMath for uint256;
     address[] public DAOmembers;
     uint256 public constant MINIMUMMEMBER = 5;
-    uint256 public contractBalance;
     //struct holding information of business
 
     IUSDT usdt = IUSDT(address(0x8607D0Ab76985e845B03A6011aA13eDD1Cb21126));
@@ -124,7 +123,6 @@ contract Investify {
         BO.AmountGenerated += _amount;
         BO.investors.push(msg.sender);
         BO.investorsBalances[msg.sender] += _amount;
-        contractBalance += _amount;
         uint256 _moneyGenerated = moneyGenerated(business);
 
         emit Investment(
@@ -144,6 +142,22 @@ contract Investify {
         BO.AmountGenerated = 0;
         usdt.transfer(msg.sender, AmountGenerated);
         BO.status = false;
+    }
+
+    function payback(uint96 amount)public returns(bool success){
+        assert(amount >= payOut[msg.sender]);
+        BusinessOwner storage BO = businessowner[msg.sender];
+        assert(BO.business== msg.sender);
+        usdt.transferFrom(msg.sender, address(this),amount);
+        address[]memory Investors = BO.investors; 
+        for(uint i = 0; i <= BO.investors.length; i++){
+            uint balance = BO.investorsBalances[Investors[i]].add(
+            BO.investorsBalances[Investors[i]].mul(BO.rate).div(10000));
+            BO.investorsBalances[Investors[i]] = 0;
+            usdt.transferFrom( address(this), BO.investors[i], balance);
+        }
+    
+        success = true;
     }
 
     /// @notice check the total amount investors has ivested in a particular business
