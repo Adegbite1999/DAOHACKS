@@ -93,10 +93,10 @@ contract Investify {
         address business
     ) public {
         assert(checkMember());
-        BusinessOwner storage BO = businessowner[business];
-        assert(whiteListedBusiness[msg.sender]);
+        assert(whiteListedBusiness[business]);
         require(payOut[business] == 0, "you are still owing investors");
 
+        BusinessOwner storage BO = businessowner[business];
         BO.business = business;
         BO.amount = _amount;
         BO.rate = (_rate.mul(10000)).div(100);
