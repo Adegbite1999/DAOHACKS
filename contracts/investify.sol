@@ -88,14 +88,10 @@ contract Investify {
     /// @param _amount The _amount needed for the business.
 
     function addBusiness(
-        string memory _name,
         uint256 _amount,
         uint256 _rate,
         address business
     ) public {
-
-    function addBusiness(uint256 _amount) public {
-
         assert(checkMember());
         BusinessOwner storage BO = businessowner[business];
         assert(whiteListedBusiness[msg.sender]);
@@ -103,7 +99,6 @@ contract Investify {
 
         BO.business = business;
         BO.amount = _amount;
-        BO.name = _name;
         BO.rate = (_rate.mul(10000)).div(100);
         BO.status = true;
 
