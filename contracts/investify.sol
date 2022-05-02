@@ -8,8 +8,9 @@ contract Investify {
     using SafeMath for uint256;
     address[] public DAOmembers;
     uint256 public constant MINIMUMMEMBER = 5;
-    //struct holding information of business
 
+
+    //struct holding information of business
     IUSDT usdt = IUSDT(address(0x8607D0Ab76985e845B03A6011aA13eDD1Cb21126));
     struct BusinessOwner {
         address business;
